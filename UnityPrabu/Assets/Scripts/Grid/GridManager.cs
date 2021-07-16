@@ -9,6 +9,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private GameObject Nirvana;
     [SerializeField] private GameObject InfoBox;
+    public Text scoreAll;
     private int rows = 7;
     private int cols = 7;
     [SerializeField] private float tileSize = 1;
@@ -19,6 +20,8 @@ public class GridManager : MonoBehaviour
     private int[] bombRow = new int[6];
     private int[] bombCol = new int[6];
     private const int BOMB = 9;
+    private TilesManager[] allChildren = new TilesManager[36];
+    private int children_id = 0;
     
     // Start is called before the first frame update
     void Start()
@@ -40,12 +43,13 @@ public class GridManager : MonoBehaviour
     }
     private void GenerateUIGrid()
     {
+        
         for(int row = 0;row<rows;row++)
         {
             for(int col = 0;col<cols;col++)
             {
+                //0, 0 tiles, the nirvana
                 if(row == 0 && col == 0){
-                    //tbc
                     GameObject Voidy = (GameObject) Instantiate(Nirvana, transform);
                     float posX = col * tileSize;
                     float posY = row * -tileSize;
@@ -88,6 +92,9 @@ public class GridManager : MonoBehaviour
                     float posY = row * -tileSize;
                     //transform the tiles to its pos
                     tile.transform.position = new Vector2(posX, posY);
+                    //add it to the children array
+                    allChildren[children_id] = tileMng;
+                    children_id++;
                 }
             }
         }
@@ -137,23 +144,23 @@ public class GridManager : MonoBehaviour
                 total++;
             }            
         }
-        print(total); 
     }
+    //i = 0, j = 4 
     int calculateBomb(int posi, int posj){
         int total = 0;
         // atas
         if(posi > 0){
             for(int j = posj-1;j<=posj+1;j++){
-                if(j >= 0 && j < cols-1){
+                if(j >= 0 && j <= 5){
                     if(gameGrid[posi-1,j] == BOMB)
                         total++;
                 } 
             }
         }
-        //bawah
-        if(posi < rows -2){
+        //bawah, row-3 == 4
+        if(posi <= 4){
             for(int j = posj-1;j<=posj+1;j++){
-                if(j >= 0 && j < cols-2){
+                if(j >= 0 && j <= 5){
                     if(gameGrid[posi+1,j] == BOMB)
                         total++;
                 } 
@@ -165,7 +172,7 @@ public class GridManager : MonoBehaviour
                 total++;
         }
         //kanan
-        if(posj < cols - 2){
+        if(posj <= 4){
             if(gameGrid[posi,posj+1] == BOMB)
                 total++;
         }
@@ -178,7 +185,6 @@ public class GridManager : MonoBehaviour
                     //if the bomb around it is 0
                     if(calculateBomb(i, j) == 0){
                         //set it to be a bomb
-                        totalFill--;
                         gameGrid[i, j] = BOMB;
                     }
                 }
@@ -214,5 +220,35 @@ public class GridManager : MonoBehaviour
                     bombCol[i]++;
             }
         }
+    }
+
+    public void CalculateScore(){
+        // Debug.Log(transform.childCount);
+        // Debug.Log(children_id);
+        // Debug.Log(totalFill);
+        int userScore = totalFill;
+        for(int i = 0;i<children_id;i++){
+            int relativeRow = i/(rows-1);
+            int relativeCol = i%(cols-1);
+            if(!allChildren[i].isFixed && !allChildren[i].isABomb){
+
+                // var msg = string.Format("Row : {0}, Col : {1}", relativeRow, relativeCol);
+                // Debug.Log(msg);
+                int actual_val = calculateBomb(relativeRow, relativeCol);
+                if(actual_val == allChildren[i].count){
+                    userScore++;
+                    // var msg1 = string.Format("Row : {0}, Col : {1}", relativeRow, relativeCol);
+                    // Debug.Log(msg1);
+                }
+            }
+            else if(allChildren[i].isABomb && allChildren[i].count == BOMB){
+                userScore++;
+                // var msg2 = string.Format("Row : {0}, Col : {1}", relativeRow, relativeCol);
+                // Debug.Log(msg2);
+            }
+        }
+        var msg3 = string.Format("Your Score : {0}", userScore);
+        // Debug.Log(msg3);
+        scoreAll.text = msg3;
     }
 }
