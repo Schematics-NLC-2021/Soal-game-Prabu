@@ -57,6 +57,7 @@ public class TilesManager : MonoBehaviour
             if(isClicked()){
                 countUpdate(ADD);
                 scoreChanged = true;
+                FindObjectOfType<AudioManager>().Play("ClickFX");
             }
         }
         //jika klik kanan
@@ -74,6 +75,7 @@ public class TilesManager : MonoBehaviour
                     //jadi bintang klo count == 0
                     count = 9;
                 }
+                FindObjectOfType<AudioManager>().Play("ClickFX");
             }
         }
     }

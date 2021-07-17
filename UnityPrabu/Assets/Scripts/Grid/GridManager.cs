@@ -9,7 +9,6 @@ public class GridManager : MonoBehaviour
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private GameObject Nirvana;
     [SerializeField] private GameObject InfoBox;
-    public Text scoreAll;
     private int rows = 7;
     private int cols = 7;
     [SerializeField] private float tileSize = 1;
@@ -29,6 +28,18 @@ public class GridManager : MonoBehaviour
         makeGameGrid();
         GenerateUIGrid();
     }
+    
+    private static GridManager instance = null;
+    void Awake(){
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+            return;
+        }
+        Destroy(this.gameObject);
+    }
+
     void makeGameGrid(){
         for(int i = 0;i<rows-1;i++){            //1st phase, set all 0
             for(int j = 0; j < cols-1;j++){
@@ -249,6 +260,7 @@ public class GridManager : MonoBehaviour
         }
         var msg3 = string.Format("Your Score : {0}", userScore);
         // Debug.Log(msg3);
-        scoreAll.text = msg3;
+        // Debug.Log("Finding score manager");
+        FindObjectOfType<ScoreManager>().ShowResult(msg3);
     }
 }
