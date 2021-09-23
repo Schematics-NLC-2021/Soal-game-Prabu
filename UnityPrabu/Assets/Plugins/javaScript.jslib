@@ -29,7 +29,7 @@ mergeInto(LibraryManager.library, {
     GLctx.bindTexture(GLctx.TEXTURE_2D, GL.textures[texture]);
   },
 
-function sendScore(score) {
+  sendScore: function(score) {
     parent.c3_callFunction("sendScore", [score]);
 }
 });
