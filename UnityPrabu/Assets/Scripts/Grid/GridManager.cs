@@ -2,16 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+//to import js  
+using System.Runtime.InteropServices;
 
 public class GridManager : MonoBehaviour
 {
+
+    [DllImport("__Internal")]
+    private static extern void sendScore(int score);
+
     [Header("Configuration")]
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private GameObject Nirvana;
     [SerializeField] private GameObject InfoBox;
     private int rows = 7;
     private int cols = 7;
-    [SerializeField] private float tileSize = 1;
+    [SerializeField] private float tileSize = 1.84375f;
     [SerializeField] private int totalBomb = 15;
     [SerializeField] private int totalFill = 6;
 
@@ -27,6 +33,8 @@ public class GridManager : MonoBehaviour
     {
         makeGameGrid();
         GenerateUIGrid();
+        // Hello();
+        // Debug.Log(AddNumbers(4, 7));
     }
     
     private static GridManager instance = null;
@@ -51,6 +59,7 @@ public class GridManager : MonoBehaviour
         fillGrid();                             //fill tiles with fixed tile
         countColo();                            //calculate bomb col
         countRowo();                            //calculate bomb row
+        // printGrid();
     }
     private void GenerateUIGrid()
     {
@@ -94,7 +103,7 @@ public class GridManager : MonoBehaviour
                     //fixed pos
                     if(tileMng.initValue > 0 && tileMng.initValue < 9){
                         tileMng.isFixed = true;
-                        tileMng.score.color = Color.red;
+                        tileMng.score.color = Color.blue;
                     }
                     //mark bomb
                     tileMng.isABomb = tileMng.initValue == BOMB;
@@ -262,5 +271,15 @@ public class GridManager : MonoBehaviour
         // Debug.Log(msg3);
         // Debug.Log("Finding score manager");
         FindObjectOfType<ScoreManager>().ShowResult(msg3);
+        sendScore(userScore);
+    }
+    void printGrid(){
+        for(int i = 0;i<rows-1;i++){
+            for(int j = 0;j<cols-1;j++){
+                var msg4 = string.Format("Isi {0}", gameGrid[i, j]);
+                Debug.Log(msg4);
+            }
+            Debug.Log("\n");
+        }
     }
 }

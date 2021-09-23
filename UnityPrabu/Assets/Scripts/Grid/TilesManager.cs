@@ -17,25 +17,47 @@ public class TilesManager : MonoBehaviour
     public bool scoreChanged = false;
 
     public Text score;                                  //to show score
+    public Sprite filledSprite;                         //for change sprite all the way down
+    public Sprite ZeroSprite;
+    public SpriteRenderer spriteRenderer;
+    public Image BOMB_BABY;                             //For art, because art is an explosion, and megumin is bombin explosion
     // Start is called before the first frame update
     void Start()
     {
         if(isFixed){
             count = initValue;
         }
-        showScore();
+        showScoreBomb();
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(ViewHelp.onMainScene){
+            DoSomething();
+        }
+
+    }
+
+    void DoSomething(){
         scoreChanged = false;
         if(!isFixed){
             StateUpdate();
             ScoreUpdate();
         }
         if(scoreChanged)
-            showScore();
+            showScoreBomb();
+        
+        matchTileSprite();
+    }
+
+    void matchTileSprite(){
+        if(count != 0)
+            spriteRenderer.sprite = filledSprite;
+        else{
+            spriteRenderer.sprite = ZeroSprite;
+        }
     }
 
     void StateUpdate(){
@@ -55,7 +77,7 @@ public class TilesManager : MonoBehaviour
         //jika klik kiri
         if(Input.GetMouseButtonDown(0)){
             if(isClicked()){
-                countUpdate(ADD);
+                count++;
                 scoreChanged = true;
                 FindObjectOfType<AudioManager>().Play("ClickFX");
             }
@@ -78,27 +100,26 @@ public class TilesManager : MonoBehaviour
                 FindObjectOfType<AudioManager>().Play("ClickFX");
             }
         }
-    }
-
-    void showScore(){
-        if(count > 8){
-            count = 9;
-            score.text = "*";
-            return;
-        }
-        if(count <= 0){
+        //score constrain
+        if(count <= 0)
             count = 0;
-            score.text = "";
-            return;
+        else if(count >= 9){
+            count = 9;
         }
-        score.text = count.ToString();        
     }
 
-    void countUpdate(int mode){
-        if(mode == 0)
-            count--;
-        if(mode == 1)
-            count++;
+    void showScoreBomb(){
+        if(count <= 0 || count >= 9){
+            score.text = "";
+        }else{
+            score.text = count.ToString();
+        }
+        //bomb handling
+        if(count == 9){
+            BOMB_BABY.enabled = true;
+        }else{
+            BOMB_BABY.enabled = false;
+        }
     }
 
     bool isClicked(){
