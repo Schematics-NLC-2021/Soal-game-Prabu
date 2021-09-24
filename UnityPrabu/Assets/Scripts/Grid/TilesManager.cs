@@ -86,7 +86,7 @@ public class TilesManager : MonoBehaviour
             if(isClicked()){
                 scoreChanged = true;
                 //jika di klik dengan shift key, kita reset isinya
-                if(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)){
+                if(Input.GetKey("d")){
                     count = 0;
                 }
                 //klo ga teken shift

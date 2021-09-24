@@ -36,11 +36,9 @@ mergeInto(LibraryManager.library, {
   confirmActionfunc: function(score){
     var confirmAction = confirm("Apakah anda yakin akan mengsubmit?");
     if (confirmAction) {
-      sendScore(score);
-      alert("Score telah di submit");
+      parent.c3_callFunction("sendScore", [score]);
       return true;
     } else {
-      alert("Submit dibatalkan");
       return false;
     }
   },

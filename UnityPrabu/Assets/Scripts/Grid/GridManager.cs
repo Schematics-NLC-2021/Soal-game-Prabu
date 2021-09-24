@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 //to import js  
 using System.Runtime.InteropServices;
+//for testing text kj
+using System.IO;
 
 public class GridManager : MonoBehaviour
 {
@@ -277,16 +279,21 @@ public class GridManager : MonoBehaviour
         ScoreManager.gameDone = confirmActionfunc(userScore);
         //kalo disubmit show about it
         if(ScoreManager.gameDone){
+            // sendScore(userScore);
             FindObjectOfType<ScoreManager>().ShowResult(msg3);
         }
     }
     void printGrid(){
+        string path = "Assets/test.txt";
+        StreamWriter writer = new StreamWriter(path, true);
         for(int i = 0;i<rows-1;i++){
             for(int j = 0;j<cols-1;j++){
-                var msg4 = string.Format("Isi {0}", gameGrid[i, j]);
-                Debug.Log(msg4);
+                var msg4 = string.Format("{0} ", gameGrid[i, j]);
+                // Debug.Log(msg4);
+                writer.Write(msg4);
             }
-            Debug.Log("\n");
+            writer.Write("\n");
         }
+        writer.Close();
     }
 }

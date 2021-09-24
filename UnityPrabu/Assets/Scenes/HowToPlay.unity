@@ -391,10 +391,10 @@ PrefabInstance:
     - target: {fileID: 4193183056877608834, guid: 1ba9f3af660a0d8419cfda037fa44da6, type: 3}
       propertyPath: m_Text
       value: "Cara Bermain:\n-[Left Click] : menambah nilai pada tile\n-[Right Click]
-        : mengurangi nilai pada tile /\n Jika nilai tile = 0, maka nilai akan menjadi
-        \" * \" [Ranjau]\n-[Shift + Right Click] : mereset nilai tile ke 0\n-[R Key]
-        : mereset seluruh nilai tile ke 0\n-[S Key] : menyimpan keadaan grid sementara\n-[B
-        Key] : mengembalikan keadaan grid saat penyimpanan\n terakhir"
+        : mengurangi nilai pada tile jika nilai !=0 dan\n Jika nilai tile = 0, maka
+        nilai akan menjadi [Ranjau]\n-[D + Right Click] : mereset nilai tile ke 0\n-[R
+        Key] : mereset seluruh nilai tile ke 0\n-[S Key] : menyimpan keadaan grid
+        sementara\n-[B Key] : mengembalikan keadaan grid saat penyimpanan\n terakhir"
       objectReference: {fileID: 0}
     - target: {fileID: 4193183056915515174, guid: 1ba9f3af660a0d8419cfda037fa44da6, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
