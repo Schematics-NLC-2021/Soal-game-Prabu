@@ -9,7 +9,9 @@ public class ViewHelp : MonoBehaviour
     {
         // Application.LoadLevel(sceneToChangeTo); <- is obsolete
         onMainScene = sceneToChangeTo == 0;
-        SceneManager.LoadScene(sceneToChangeTo);
+        //cek gamenya done or no
+        if(!ScoreManager.gameDone)
+            SceneManager.LoadScene(sceneToChangeTo);
         // deactivate all skrip
         // GameObject[] children = new GameObject[42];
         // for(int i = 0;i<42;i++){

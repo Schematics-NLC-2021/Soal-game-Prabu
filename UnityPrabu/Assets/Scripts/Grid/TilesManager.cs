@@ -34,10 +34,9 @@ public class TilesManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(ViewHelp.onMainScene){
+        if(ViewHelp.onMainScene && !ScoreManager.gameDone){
             DoSomething();
         }
-
     }
 
     void DoSomething(){
