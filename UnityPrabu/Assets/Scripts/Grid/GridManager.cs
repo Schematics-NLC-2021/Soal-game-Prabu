@@ -11,7 +11,7 @@ public class GridManager : MonoBehaviour
     [DllImport("__Internal")]
     private static extern void sendScore(int score);
     [DllImport("__Internal")]
-    private static extern bool confirmAction(int score);
+    private static extern bool confirmActionfunc(int score);
 
     [Header("Configuration")]
     [SerializeField] private GameObject tilePrefab;
@@ -272,10 +272,13 @@ public class GridManager : MonoBehaviour
         var msg3 = string.Format("Your Score : {0}", userScore);
         // Debug.Log(msg3);
         // Debug.Log("Finding score manager");
-        FindObjectOfType<ScoreManager>().ShowResult(msg3);
         //try na do confirm
         // sendScore(userScore);
-        ScoreManager.gameDone = confirmAction(userScore);
+        ScoreManager.gameDone = confirmActionfunc(userScore);
+        //kalo disubmit show about it
+        if(ScoreManager.gameDone){
+            FindObjectOfType<ScoreManager>().ShowResult(msg3);
+        }
     }
     void printGrid(){
         for(int i = 0;i<rows-1;i++){
