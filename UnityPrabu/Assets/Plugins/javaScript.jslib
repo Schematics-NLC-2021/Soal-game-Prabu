@@ -33,10 +33,9 @@ mergeInto(LibraryManager.library, {
     parent.c3_callFunction("sendScore", [score]);
   },
 
-  confirmActionfunc: function(score){
+  confirmActionfunc: function(){
     var confirmAction = confirm("Apakah anda yakin akan mengsubmit?");
     if (confirmAction) {
-      parent.c3_callFunction("sendScore", [score]);
       return true;
     } else {
       return false;

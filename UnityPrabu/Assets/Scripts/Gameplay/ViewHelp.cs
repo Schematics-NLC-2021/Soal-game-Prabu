@@ -10,18 +10,8 @@ public class ViewHelp : MonoBehaviour
         // Application.LoadLevel(sceneToChangeTo); <- is obsolete
         onMainScene = sceneToChangeTo == 0;
         //cek gamenya done or no
-        if(!ScoreManager.gameDone)
+        if(!ScoreManager.gameDone && !PopUpSystem.isOnPop)
+            //SceneManager is not from us, it's from SceneManagement, I've changed the SceneManager gameObject to Lolz, and it stil works
             SceneManager.LoadScene(sceneToChangeTo);
-        // deactivate all skrip
-        // GameObject[] children = new GameObject[42];
-        // for(int i = 0;i<42;i++){
-        //     GameObject tempOb = Grids.transform.GetChild(i).gameObject;
-        //     if(sceneToChangeTo != 0)
-        //         tempOb.GetComponent<TilesManager>().onMainScene = false;
-        //     else{
-        //         tempOb.GetComponent<TilesManager>().onMainScene = false;
-        //     }
-        //     Debug.Log("Looking good");
-        // }
     }
 }

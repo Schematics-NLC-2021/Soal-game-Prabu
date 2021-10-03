@@ -10,6 +10,6 @@ public class ScoreManager : MonoBehaviour
     public void ShowResult(string msg){
         // Debug.Log(msg);
         scoreText.text = msg;
-        gameDone = true;
+        // gameDone = true;
     }
 }

@@ -2,18 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//to import js  
-using System.Runtime.InteropServices;
+// //to import js  
+// using System.Runtime.InteropServices;
 //for testing text kj
-using System.IO;
+// using System.IO;
 
 public class GridManager : MonoBehaviour
 {
-
-    [DllImport("__Internal")]
-    private static extern void sendScore(int score);
-    [DllImport("__Internal")]
-    private static extern bool confirmActionfunc(int score);
 
     [Header("Configuration")]
     [SerializeField] private GameObject tilePrefab;
@@ -43,12 +38,16 @@ public class GridManager : MonoBehaviour
     
     private static GridManager instance = null;
     void Awake(){
+        // Debug.Log("Kepainggil");
         if(instance == null)
         {
+            // Debug.Log("Mengnull");
             instance = this;
             DontDestroyOnLoad(this.gameObject);
             return;
         }
+        // Debug.Log("Mengtidak NULL");
+        // selfDestruct();
         Destroy(this.gameObject);
     }
 
@@ -246,7 +245,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public void CalculateScore(){
+    public int CalculateScore(){
         // Debug.Log(transform.childCount);
         // Debug.Log(children_id);
         // Debug.Log(totalFill);
@@ -271,29 +270,34 @@ public class GridManager : MonoBehaviour
                 // Debug.Log(msg2);
             }
         }
-        var msg3 = string.Format("Your Score : {0}", userScore);
-        // Debug.Log(msg3);
-        // Debug.Log("Finding score manager");
-        //try na do confirm
-        // sendScore(userScore);
-        ScoreManager.gameDone = confirmActionfunc(userScore);
-        //kalo disubmit show about it
-        if(ScoreManager.gameDone){
-            // sendScore(userScore);
-            FindObjectOfType<ScoreManager>().ShowResult(msg3);
-        }
+        return userScore;
+        // var msg3 = string.Format("Your Score : {0}", userScore);
+        // // Debug.Log(msg3);
+        // // Debug.Log("Finding score manager");
+        // //try na do confirm
+        // // sendScore(userScore);
+        // ScoreManager.gameDone = confirmActionfunc(userScore);
+        // //kalo disubmit show about it
+        // if(ScoreManager.gameDone){
+        //     // sendScore(userScore);
+        //     FindObjectOfType<ScoreManager>().ShowResult(msg3);
+        // }
     }
-    void printGrid(){
-        string path = "Assets/test.txt";
-        StreamWriter writer = new StreamWriter(path, true);
-        for(int i = 0;i<rows-1;i++){
-            for(int j = 0;j<cols-1;j++){
-                var msg4 = string.Format("{0} ", gameGrid[i, j]);
-                // Debug.Log(msg4);
-                writer.Write(msg4);
-            }
-            writer.Write("\n");
-        }
-        writer.Close();
+
+    public void selfDestruct(){
+        Destroy(this.gameObject);
     }
+    // void printGrid(){
+    //     string path = "Assets/test.txt";
+    //     StreamWriter writer = new StreamWriter(path, true);
+    //     for(int i = 0;i<rows-1;i++){
+    //         for(int j = 0;j<cols-1;j++){
+    //             var msg4 = string.Format("{0} ", gameGrid[i, j]);
+    //             // Debug.Log(msg4);
+    //             writer.Write(msg4);
+    //         }
+    //         writer.Write("\n");
+    //     }
+    //     writer.Close();
+    // }
 }
