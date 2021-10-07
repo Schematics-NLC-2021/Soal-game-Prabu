@@ -10,7 +10,10 @@ public class TimeController : MonoBehaviour
     public Text timerText;
     private TimeSpan timePlaying;
     private bool timerGoing;
-    public static float elapsedTime = 0f;
+    // public static float elapsedTime = 0f;
+    public static DateTime start_time = DateTime.Now;
+    public static DateTime end_time = start_time.AddMinutes(10.05f);
+    public static double diff_seconds = 3f;
 
     private void Awake()
     {
@@ -36,7 +39,8 @@ public class TimeController : MonoBehaviour
     {
         timerGoing = true;
         // elapsedTime = 0f;
-
+        // start_time = DateTime.Now;
+        // end_time = start_time.AddMinutes(10);
         StartCoroutine(UpdateTimer());
     }
 
@@ -47,12 +51,15 @@ public class TimeController : MonoBehaviour
 
     private IEnumerator UpdateTimer()
     {
-        float max_time = 603f;
-        while(timerGoing && elapsedTime < max_time)
+        while(timerGoing && diff_seconds > 0)
         {
-            elapsedTime += Time.deltaTime;
-            timePlaying = TimeSpan.FromSeconds(max_time - elapsedTime);
-            string timePlayingStr = string.Format("Timer:\n{0}", timePlaying.ToString("mm':'ss"));
+            DateTime now = DateTime.Now;
+            diff_seconds = (end_time - now).TotalSeconds;
+            int minutes = (int)Math.Floor(diff_seconds/60);
+            string menit = (minutes < 10)? '0'+ minutes.ToString() : minutes.ToString();
+            int seconds = (int)(diff_seconds % 60);
+            string detik = (seconds < 10)? '0'+ seconds.ToString() : seconds.ToString();
+            string timePlayingStr = string.Format("Timer:\n{0}: {1}", menit, detik);
             timerText.text = timePlayingStr;
 
             yield return null;
