@@ -270,6 +270,8 @@ public class GridManager : MonoBehaviour
                 // Debug.Log(msg2);
             }
         }
+        //Normalize the score
+        userScore = (int)Mathf.Floor(userScore*30.0f/36.0f);
         return userScore;
         // var msg3 = string.Format("Your Score : {0}", userScore);
         // // Debug.Log(msg3);

@@ -24,7 +24,7 @@ public class EndGameManager : MonoBehaviour
         FindObjectOfType<TimeController>().EndTimer();
         ScoreManager.gameDone = true;
         int score = FindObjectOfType<GridManager>().CalculateScore();
-        var scoreMsg = string.Format("Your Score:\n{0}", score);
+        var scoreMsg = string.Format("Your Score:\n{0} out of 30", score);
         FindObjectOfType<ScoreManager>().ShowResult(scoreMsg);
         sendScore(score);
         bgDone.enabled = true;
