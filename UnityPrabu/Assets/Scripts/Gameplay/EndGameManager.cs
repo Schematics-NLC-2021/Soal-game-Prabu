@@ -21,13 +21,21 @@ public class EndGameManager : MonoBehaviour
     }
 
     public void EndGame(){
+        //stop the timer
         FindObjectOfType<TimeController>().EndTimer();
+        //stop the game from updating
         ScoreManager.gameDone = true;
+        //calculate the score
         int score = FindObjectOfType<GridManager>().CalculateScore();
+        //create text score string
         var scoreMsg = string.Format("Your Score:\n{0} out of 30", score);
+        //show the score
         FindObjectOfType<ScoreManager>().ShowResult(scoreMsg);
+        //send to server
         sendScore(score);
+        //show border silakan kembali
         bgDone.enabled = true;
+        //show pesan silakan kembali
         doneText.text = "Silakan kembali ke game utama";   
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 // //to import js  
 // using System.Runtime.InteropServices;
 //for testing text kj
-// using System.IO;
+using System.IO;
 
 public class GridManager : MonoBehaviour
 {
@@ -17,14 +17,29 @@ public class GridManager : MonoBehaviour
     private int rows = 7;
     private int cols = 7;
     [SerializeField] private float tileSize = 1.84375f;
-    [SerializeField] private int totalBomb = 15;
+    // [SerializeField] private int totalBomb = 16;
     [SerializeField] private int totalFill = 6;
 
     private int[,] gameGrid = new int[6,6];
+    private int[,] gameGridset1 = {{3, 9, 0, 9, 9, 9},
+                                   {9, 9, 3, 0, 6, 9},
+                                   {0, 3, 0, 0, 9, 9},
+                                   {0, 0, 9, 0, 9, 0},
+                                   {9, 9, 9, 0, 2, 0},
+                                   {9, 0, 0, 2, 9, 0}};
+    
+    private int[,] gameGridset2 = {{2, 9, 0, 9, 0, 9},
+                                   {9, 5, 9, 3, 9, 9},
+                                   {9, 9, 0, 0, 0, 9},
+                                   {3, 9, 9, 0, 0, 0},
+                                   {0, 0, 9, 0, 1, 9},
+                                   {0, 9, 9, 2, 0, 0}};
+         
     private int[] bombRow = new int[6];
     private int[] bombCol = new int[6];
+    private int[] FixedNonBombPos = new int[8];
     private const int BOMB = 9;
-    private TilesManager[] allChildren = new TilesManager[36];
+    private TilesManager[] six_by_six = new TilesManager[36];
     private int children_id = 0;
     
     // Start is called before the first frame update
@@ -52,14 +67,21 @@ public class GridManager : MonoBehaviour
     }
 
     void makeGameGrid(){
-        for(int i = 0;i<rows-1;i++){            //1st phase, set all 0
-            for(int j = 0; j < cols-1;j++){
-                gameGrid[i, j] = 0;
-            }
+        // for(int i = 0;i<rows-1;i++){            //1st phase, set all 0
+        //     for(int j = 0; j < cols-1;j++){
+        //         gameGrid[i, j] = 0;
+        //     }
+        // }
+        // randomizeBomb();                        //2nd phase, set all bomb
+        // fixGrid();                              //3rd phase, fix 0 bomb tiles
+        // fillGrid();                             //fill tiles with fixed tile
+        int key1 = Random.Range(1, 10);
+        int key2 = Random.Range(0, 9);
+        if((key1 + key2) % 2 == 1){
+            gameGrid = gameGridset1;
+        }else{
+            gameGrid = gameGridset2;
         }
-        randomizeBomb();                        //2nd phase, set all bomb
-        fixGrid();                              //3rd phase, fix 0 bomb tiles
-        fillGrid();                             //fill tiles with fixed tile
         countColo();                            //calculate bomb col
         countRowo();                            //calculate bomb row
         // printGrid();
@@ -116,7 +138,7 @@ public class GridManager : MonoBehaviour
                     //transform the tiles to its pos
                     tile.transform.position = new Vector2(posX, posY);
                     //add it to the children array
-                    allChildren[children_id] = tileMng;
+                    six_by_six[children_id] = tileMng;
                     children_id++;
                 }
             }
@@ -129,45 +151,45 @@ public class GridManager : MonoBehaviour
         transform.position = new Vector2(offX, offY);
     }
 //-------------------------------------------------------Game Grid Utils--------------------------------------//
-    void randomizeBomb(){
-        int row, col;
-        int total = 0;
-        //guaranteed at least one generator
-        //row phase
-        bool isDone = false;
-        for(int i = 0;i<rows-1;i++){
-            isDone = false;
-            while(!isDone){
-                col = Random.Range(0, cols-1);
-                if(gameGrid[i,col] == 0){
-                    gameGrid[i,col] = BOMB;
-                    total++;
-                    isDone = true;
-                }
-            }
-        }
-        //col phase
-        for(int j = 0;j<cols-1;j++){
-            isDone = false;
-            while(!isDone){
-                row = Random.Range(0, rows-1);
-                if(gameGrid[row,j] == 0){
-                    gameGrid[row,j] = BOMB;
-                    total++;
-                    isDone = true;
-                }
-            }
-        }
-        //random sisa bombu
-        while(total < totalBomb){
-            row = Random.Range(0, rows-1);
-            col = Random.Range(0, cols-1);
-            if(gameGrid[row,col] == 0){
-                gameGrid[row,col] = BOMB;
-                total++;
-            }            
-        }
-    }
+    // void randomizeBomb(){
+    //     int row, col;
+    //     int total = 0;
+    //     //guaranteed at least one generator
+    //     //row phase
+    //     bool isDone = false;
+    //     for(int i = 0;i<rows-1;i++){
+    //         isDone = false;
+    //         while(!isDone){
+    //             col = Random.Range(0, cols-1);
+    //             if(gameGrid[i,col] == 0){
+    //                 gameGrid[i,col] = BOMB;
+    //                 total++;
+    //                 isDone = true;
+    //             }
+    //         }
+    //     }
+    //     //col phase
+    //     for(int j = 0;j<cols-1;j++){
+    //         isDone = false;
+    //         while(!isDone){
+    //             row = Random.Range(0, rows-1);
+    //             if(gameGrid[row,j] == 0){
+    //                 gameGrid[row,j] = BOMB;
+    //                 total++;
+    //                 isDone = true;
+    //             }
+    //         }
+    //     }
+    //     //random sisa bombu
+    //     while(total < totalBomb){
+    //         row = Random.Range(0, rows-1);
+    //         col = Random.Range(0, cols-1);
+    //         if(gameGrid[row,col] == 0){
+    //             gameGrid[row,col] = BOMB;
+    //             total++;
+    //         }            
+    //     }
+    // }
     //i = 0, j = 4 
     int calculateBomb(int posi, int posj){
         int total = 0;
@@ -201,31 +223,34 @@ public class GridManager : MonoBehaviour
         }
         return total;
     }
-    void fixGrid(){
-        for(int i = 0;i<rows-1;i++){
-            for(int j = 0;j<cols-1;j++){
-                if(gameGrid[i, j] == 0){
-                    //if the bomb around it is 0
-                    if(calculateBomb(i, j) == 0){
-                        //set it to be a bomb
-                        gameGrid[i, j] = BOMB;
-                    }
-                }
-            }
-        }
-    }
-    void fillGrid(){
-        int row, col;
-        int total = 0;
-        while(total < totalFill){
-            row = Random.Range(0, rows-1);
-            col = Random.Range(0, cols-1);
-            if(gameGrid[row,col] == 0){
-                gameGrid[row,col] = calculateBomb(row, col);
-                total++;
-            }
-        }
-    }
+    // void fixGrid(){
+    //     for(int i = 0;i<rows-1;i++){
+    //         for(int j = 0;j<cols-1;j++){
+    //             if(gameGrid[i, j] == 0){
+    //                 //if the bomb around it is 0
+    //                 if(calculateBomb(i, j) == 0){
+    //                     //set it to be a bomb
+    //                     gameGrid[i, j] = BOMB;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+    // void fillGrid(){
+    //     int row, col;
+    //     int total = 0;
+    //     while(total < totalFill){
+    //         row = Random.Range(0, rows-1);
+    //         col = Random.Range(0, cols-1);
+    //         if(gameGrid[row,col] == 0){
+    //             gameGrid[row,col] = calculateBomb(row, col);
+    //             //add it to fixednonbomb
+    //             FixedNonBombPos[total] = row*(rows - 1) + col;
+    //             //increment total filled
+    //             total++;
+    //         }
+    //     }
+    // }
     void countRowo(){
         for(int i = 0;i<rows-1;i++){
             bombRow[i] = 0;
@@ -253,25 +278,25 @@ public class GridManager : MonoBehaviour
         for(int i = 0;i<children_id;i++){
             int relativeRow = i/(rows-1);
             int relativeCol = i%(cols-1);
-            if(!allChildren[i].isFixed && !allChildren[i].isABomb){
+            if(!six_by_six[i].isFixed && !six_by_six[i].isABomb){
 
                 // var msg = string.Format("Row : {0}, Col : {1}", relativeRow, relativeCol);
                 // Debug.Log(msg);
                 int actual_val = calculateBomb(relativeRow, relativeCol);
-                if(actual_val == allChildren[i].count){
+                if(actual_val == six_by_six[i].count){
                     userScore++;
                     // var msg1 = string.Format("Row : {0}, Col : {1}", relativeRow, relativeCol);
                     // Debug.Log(msg1);
                 }
             }
-            else if(allChildren[i].isABomb && allChildren[i].count == BOMB){
+            else if(six_by_six[i].isABomb && six_by_six[i].count == BOMB){
                 userScore++;
                 // var msg2 = string.Format("Row : {0}, Col : {1}", relativeRow, relativeCol);
                 // Debug.Log(msg2);
             }
         }
         //Normalize the score
-        userScore = (int)Mathf.Floor(userScore*30.0f/36.0f);
+        userScore = (int)Mathf.Round(userScore*30.0f/36.0f);
         return userScore;
         // var msg3 = string.Format("Your Score : {0}", userScore);
         // // Debug.Log(msg3);
@@ -301,5 +326,58 @@ public class GridManager : MonoBehaviour
     //         writer.Write("\n");
     //     }
     //     writer.Close();
+    // }
+
+    // int calculateUserBoardScore(){
+    //     //get User's grid;
+    //     int[,] userGrid = new int[6,6];
+    //     for(int i = 0;i<children_id;i++){
+    //         int relativeRow = i/(rows-1);
+    //         int relativeCol = i%(cols-1);
+    //         if(relativeCol > 0 && relativeRow > 0){
+    //             userGrid[relativeRow, relativeCol] = six_by_six[i];
+    //         }
+    //     }
+
+    //     //------------------checku bombu--------------------------------\\
+    //     int newUserScore = 0;
+    //     int tempCountBomb = 0;
+    //     //check bomb in each cols
+    //     for(int i = 0;i<cols-1;i++){
+    //         tempCountBomb = 0;
+    //         for(int j = 0;j<rows-1;j++){
+    //             if(userGrid[j, i] == BOMB)
+    //                 tempCountBomb+=1;
+    //         }
+    //         if(bombCol[i] == tempCountBomb){
+    //             newUserScore += tempCountBomb;
+    //         }
+    //     }
+    //     //check bomb in each rows
+    //     for(int i = 0;i<rows-1;i++){
+    //         tempCountBomb = 0;
+    //         for(int j = 0;j<cols-1;j++){
+    //             if(userGrid[i,j] == BOMB)
+    //                 tempCountBomb+=1;
+    //         }
+    //         if(bombRow[i] == tempCountBomb){
+    //             newUserScore += tempCountBomb;
+    //         }
+    //     }
+
+    //     //------------------check bomb around fill_fixed------------------\\
+    //     for(int i = 0;i<totalFill;i++){
+    //         int relativeRow = FixedNonBombPos[i]/(rows-1);
+    //         int relativeCol = FixedNonBombPos[i]%(cols-1);
+    //         //itung berapa total Bomb di sekitar filled tiles by the user
+    //         int userVal = calculateBomb(relativeRow, relativeCol);
+    //         if(six_by_six[FixedNonBombPos[i]] == userVal){
+    //             //Kalau sama dengan game code
+    //             newUserScore+=1;
+    //         }
+    //     }
+        
+    //     //-----check all non fixed tiles-------------------------------\\
+    //     for
     // }
 }

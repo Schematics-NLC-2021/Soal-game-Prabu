@@ -1553,7 +1553,7 @@ MonoBehaviour:
   InfoBox: {fileID: 4003579865543909709, guid: 937d575e450acfc48addc1987bdedb93, type: 3}
   tileSize: 1.84375
   totalBomb: 16
-  totalFill: 8
+  totalFill: 6
 --- !u!4 &1600374351
 Transform:
   m_ObjectHideFlags: 0
