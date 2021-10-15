@@ -11,6 +11,7 @@ public class EndGameManager : MonoBehaviour
 {
     public Text doneText;
     public Image bgDone;
+    public Text timerText;
     [DllImport("__Internal")]
     private static extern void sendScore(int score);
     
@@ -28,6 +29,7 @@ public class EndGameManager : MonoBehaviour
         //calculate the score
         int score = FindObjectOfType<GridManager>().CalculateScore();
         //create text score string
+        timerText.text = "";
         var scoreMsg = string.Format("Your Score:\n{0} out of 30", score);
         //show the score
         FindObjectOfType<ScoreManager>().ShowResult(scoreMsg);

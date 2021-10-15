@@ -524,6 +524,30 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5851249776666793441, guid: 1ba9f3af660a0d8419cfda037fa44da6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5851249776666793441, guid: 1ba9f3af660a0d8419cfda037fa44da6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5851249776666793441, guid: 1ba9f3af660a0d8419cfda037fa44da6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 297624402}
+    - target: {fileID: 5851249776666793441, guid: 1ba9f3af660a0d8419cfda037fa44da6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeToScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 5851249776666793441, guid: 1ba9f3af660a0d8419cfda037fa44da6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ViewHelp, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5851249776666793441, guid: 1ba9f3af660a0d8419cfda037fa44da6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ba9f3af660a0d8419cfda037fa44da6, type: 3}
 --- !u!1 &1482792953
