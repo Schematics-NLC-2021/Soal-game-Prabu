@@ -612,8 +612,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -464, y: 256}
-  m_SizeDelta: {x: 260.2307, y: 144.9741}
+  m_AnchoredPosition: {x: 314.42, y: 74.186}
+  m_SizeDelta: {x: 180.8243, y: 112.6469}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &506927313
 MonoBehaviour:
@@ -637,7 +637,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: d5d2de3afb453f649a04d0d22c2a4dcd, type: 3}
-    m_FontSize: 48
+    m_FontSize: 36
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -1552,7 +1552,6 @@ MonoBehaviour:
   Nirvana: {fileID: 8823992402665511041, guid: e3e018596d1f04042bc4cdd5edf61a25, type: 3}
   InfoBox: {fileID: 4003579865543909709, guid: 937d575e450acfc48addc1987bdedb93, type: 3}
   tileSize: 1.84375
-  totalBomb: 16
   totalFill: 6
 --- !u!4 &1600374351
 Transform:
